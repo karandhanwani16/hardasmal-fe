@@ -1,0 +1,19 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Pass Authorization header to Laravel (JWT Bearer tokens)
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # API → Laravel (upload be/ as htdocs/laravel/ — see deploy/DEPLOY_INFINITYFREE.md)
+    RewriteRule ^api(/.*)?$ /laravel/public/index.php [L,QSA]
+
+    # Serve existing files (assets, favicon, etc.)
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # React SPA — all other routes
+    RewriteRule ^ index.html [L]
+</IfModule>

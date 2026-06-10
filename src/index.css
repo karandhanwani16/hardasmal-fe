@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --color-ledger-50: #faf8f6;
+  --color-ledger-100: #f3efe9;
+  --color-ledger-200: #e8e0d6;
+  --color-ledger-700: #4a443c;
+  --color-ledger-900: #1f1c18;
+  --color-surface: #ffffff;
+  --color-scrim: #1f1c18;
+  --color-terracotta-500: #c45c3e;
+  --color-terracotta-600: #a84d34;
+  --color-paid: #2d6a4f;
+  --color-due: #9c4221;
+  --color-dispatch: #1d4e89;
+  --color-kitchen: #b8860b;
+  --color-alert: #9b2226;
+}
+
+/* Warm-tinted dark palette — inverted ledger scale, no pure black/white */
+.dark {
+  --color-ledger-50: #1a1814;
+  --color-ledger-100: #2a2722;
+  --color-ledger-200: #3d3832;
+  --color-ledger-700: #a89f92;
+  --color-ledger-900: #f3efe9;
+  --color-surface: #242019;
+  --color-scrim: #0f0e0c;
+}
+
+@layer base {
+  html {
+    overflow-x: hidden;
+  }
+
+  body {
+    @apply bg-ledger-50 text-ledger-900 font-sans antialiased;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  /*
+   * iOS Safari renders native form controls with extra inner padding and uneven
+   * vertical alignment. Fixed height + matching line-height centers text reliably.
+   */
+  .field-control {
+    -webkit-appearance: none;
+    appearance: none;
+    min-width: 0;
+  }
+
+  input.field-control:not(.field-textarea),
+  select.field-control {
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 2.75rem;
+  }
+
+  .field-textarea {
+    height: auto;
+    line-height: 1.5;
+  }
+
+  .field-select {
+    padding-right: 2.25rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234a443c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+  }
+
+  .dark .field-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a89f92' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+
+  /* Native date/time pickers need explicit inner value alignment on mobile WebKit */
+  .field-datetime {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .field-datetime::-webkit-date-and-time-value {
+    min-width: 0;
+    text-align: left;
+    line-height: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    margin: 0;
+  }
+
+  .field-datetime::-webkit-calendar-picker-indicator {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Menu picker tiles: block iOS long-press image preview/zoom on dish photos */
+  .menu-item-card,
+  .menu-item-card__visual {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .menu-item-card__probe {
+    display: none !important;
+    pointer-events: none;
+  }
+
+  /* Crockery returns — pending "Receive" call-to-action */
+  .crockery-receive-cta {
+    animation: crockery-receive-ring 2.25s ease-in-out infinite;
+  }
+
+  @keyframes crockery-receive-ring {
+    0%,
+    100% {
+      box-shadow:
+        0 0 0 0 color-mix(in srgb, var(--color-due) 45%, transparent),
+        0 2px 6px color-mix(in srgb, var(--color-due) 18%, transparent);
+    }
+
+    50% {
+      box-shadow:
+        0 0 0 6px color-mix(in srgb, var(--color-due) 0%, transparent),
+        0 2px 8px color-mix(in srgb, var(--color-due) 22%, transparent);
+    }
+  }
+}
