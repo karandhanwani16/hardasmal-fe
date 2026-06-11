@@ -10,8 +10,8 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      '@brand-logo': path.resolve(__dirname, '../hardasmal-be/public/logo.png'),
-      '@brand-text-logo': path.resolve(__dirname, '../hardasmal-be/public/logo-text.png'),
+      '@brand-logo': path.resolve(__dirname, './public/logo.png'),
+      '@brand-text-logo': path.resolve(__dirname, './public/logo-text.png'),
     },
   },
   server: {
